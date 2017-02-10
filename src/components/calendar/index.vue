@@ -1,21 +1,39 @@
 <template>
-    <div class="calendar" v-resize="resize">
-        <div class="calendar-header" ref="calendarHeader">
+    <div
+        class="calendar"
+        v-resize="resize"
+    >
+        <div
+            class="calendar-header"
+            ref="calendarHeader"
+        >
             <div class="calendar-btn">
                 <div class="calendar-btn-prev">
-                    <a href="javascript:void(0)" @click="prevyear">
-                        <span><<</span>
+                    <a
+                        href="javascript:void(0)"
+                        @click="prevyear"
+                    >
+                        <span>&lt;&lt;</span>
                     </a>
-                    <a href="javascript:void(0)" @click="prevmonth">
-                        <span><</span>
+                    <a
+                        href="javascript:void(0)"
+                        @click="prevmonth"
+                    >
+                        <span>&lt;</span>
                     </a>
                 </div>
                 <div class="calendar-btn-next">
-                    <a href="javascript:void(0)" @click="nextmonth">
-                        <span>></span>
+                    <a
+                        href="javascript:void(0)"
+                        @click="nextmonth"
+                    >
+                        <span>&gt;</span>
                     </a>
-                    <a href="javascript:void(0)" @click="nextyear">
-                        <span>>></span>
+                    <a
+                        href="javascript:void(0)"
+                        @click="nextyear"
+                    >
+                        <span>&gt;&gt;</span>
                     </a>
                 </div>
             </div>
@@ -26,7 +44,12 @@
                 <span>月</span>
             </div>
         </div>
-        <table class="calendar-body" ref="calendarBody" cellspacing="0" cellpadding="0">
+        <table
+            class="calendar-body"
+            ref="calendarBody"
+            cellspacing="0"
+            cellpadding="0"
+        >
             <thead>
                 <tr>
                     <th v-for="weekday in WeekDays">{{ weekday }}</th>
@@ -34,9 +57,14 @@
             </thead>
             <tbody>
                 <tr v-for="weeks in Dates">
-                    <td v-for="date in weeks" @click="calendarSelect($event, date)" :style="{ width: `${cell.width}px`, height: `${cell.height}px`}">
+                    <td
+                        v-for="date in weeks"
+                        @click="select($event, date)"
+                        :style="{ width: `${cell.width}px`, height: `${cell.height}px`}"
+                        :class="{ active: date.date.getTime() === new Date(y, m - 1, d).getTime() }"
+                    >
                         <slot>
-                            <div class="cell">{{ date }}</div>
+                            <div class="cell">{{ date.date.getDate() }}</div>
                         </slot>
                     </td>
                 </tr>
@@ -67,6 +95,12 @@
                     return new Date().getMonth() + 1;
                 }
             },
+            calendar: {
+                type: Array,
+                default() {
+                    return [];
+                }
+            },
             cellMaxHeight: {
                 type: Number,
                 default: 110,
@@ -75,8 +109,9 @@
         data() {
             return {
                 WeekDays: WeekDays.fullname,
-                Year: 1970,
-                Month: 1,
+                y: new Date().getFullYear(),
+                m: new Date().getMonth() + 1,
+                d: new Date().getDate(),
                 cell: {
                     width: 0,
                     height: 0
@@ -84,50 +119,47 @@
             }
         },
         created() {
-            this.Year = this.year;
-            this.Month = this.month;
+            this.y = this.year;
+            this.m = this.month;
         },
         computed: {
             LastMonth() {
-                let year = this.Year;
-                let month = this.Month - 1;
+                let year = this.y;
+                let month = this.m - 1;
                 if (month < 1) {
                     month = 12;
                     year -= 1;
                 }
                 let days = new Date(year, month, 0).getDate();
-                const Month = {
+                return {
                     year: year,
                     month: month,
                     days: days
                 };
-                return Month;
             },
             ThisMonth() {
-                let year = this.Year;
-                let month = this.Month;
+                let year = this.y;
+                let month = this.m;
                 let days = new Date(year, month, 0).getDate();
-                const Month = {
+                return {
                     year: year,
                     month: month,
                     days: days
                 };
-                return Month;
             },
             NextMonth() {
-                let year = this.Year;
-                let month = this.Month + 1;
+                let year = this.y;
+                let month = this.m + 1;
                 if (month > 12) {
                     month = 1;
                     year += 1;
                 }
                 let days = new Date(year, month, 0).getDate();
-                const Month = {
+                return {
                     year: year,
                     month: month,
                     days: days
                 };
-                return Month;
             },
             Dates() {
                 const days = [];
@@ -136,8 +168,11 @@
                 let ThisMonthFirstDayWeek = new Date(this.ThisMonth.year, this.ThisMonth.month - 1, 0).getDay();
                 // 生成二维数组
                 for (let i = 1; i <= 42; i++) {
-                    let date = new Date(this.ThisMonth.year, this.ThisMonth.month - 1, i - ThisMonthFirstDayWeek).getDate();
-                    days.push(date);
+                    let date = new Date(this.ThisMonth.year, this.ThisMonth.month - 1, i - ThisMonthFirstDayWeek);
+                    days.push({
+                        date: date,
+                        calendar: {}
+                    });
                     if (i % 7 === 0) {
                         dates.push(days.splice(0, 7));
                     }
@@ -147,43 +182,50 @@
         },
         methods: {
             prevyear(e) {
-                let year = this.Year - 1;
-                let month = this.Month;
-                this.Year = year;
-                this.Month = month;
+                let year = this.y - 1;
+                let month = this.m;
+                this.y = year;
+                this.m = month;
                 this.$emit('change', year, month);
             },
             prevmonth(e) {
-                let year = this.Year;
-                let month = this.Month - 1;
+                let year = this.y;
+                let month = this.m - 1;
                 if (month < 1) {
                     year -= 1;
                     month = 12;
                 }
-                this.Year = year;
-                this.Month = month;
+                this.y = year;
+                this.m = month;
                 this.$emit('change', year, month);
             },
             nextyear(e) {
-                let year = this.Year + 1;
-                let month = this.Month;
-                this.Year = year;
-                this.Month = month;
+                let year = this.y + 1;
+                let month = this.m;
+                this.y = year;
+                this.m = month;
                 this.$emit('change', year, month);
             },
             nextmonth(e) {
-                let year = this.Year;
-                let month = this.Month + 1;
+                let year = this.y;
+                let month = this.m + 1;
                 if (month > 12) {
                     month = 1;
                     year += 1;
                 }
-                this.Year = year;
-                this.Month = month;
+                this.y = year;
+                this.m = month;
                 this.$emit('change', year, month);
             },
-            calendarSelect(e, date, data) {
-                this.$emit('select', this.Year, this.Month, date);
+            select(e, date) {
+                this.y = date.date.getFullYear();
+                this.m = date.date.getMonth() + 1;
+                this.d = date.date.getDate();
+                this.$emit('select', {
+                    year: this.y,
+                    month: this.m,
+                    date: this.d
+                }, date.calendar);
             },
             resize(el) {
                 this.$refs.calendarHeader.style.width = `${this.$refs.calendarBody.clientWidth}px`;
@@ -205,14 +247,14 @@
     // calendar.getCalendar(new Date());
 </script>
 <!-- 只把样式限定在本模块 -->
-<style lang="less" scoped>
+<style scoped>
+.calendar,.calendar *{
+    box-sizing: border-box;
+}
 .calendar {
     background-color: #fff;
     padding: 7px;
     overflow: auto;
-}
-.calendar *{
-    box-sizing: border-box;
 }
 .calendar-header {
     min-width: 100%;
@@ -266,6 +308,10 @@
 .calendar-body > tbody td:hover {
     background-color: #e4e8f1;
     color: #20a0ff;    
+}
+.calendar-body > tbody td.active {
+    background-color: #20a0ff;
+    color: #fff;
 }
 .cell {
      font-size: 20px;
