@@ -1,0 +1,27 @@
+{
+  "name": "calendar",
+  "version": "0.0.1",
+  "description": "a calendar component for Vue.js",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/diaocheng/calendar.git"
+  },
+  "keywords": [
+    "Vue.js",
+    "calendar",
+    "component"
+  ],
+  "author": "程刁",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/diaocheng/calendar/issues"
+  },
+  "homepage": "https://github.com/diaocheng/calendar#readme",
+  "dependencies": {
+    "vue": "^2.1.10"
+  }
+}

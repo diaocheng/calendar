@@ -1,2 +1,2 @@
 # hcalendar
-a calendar component for Vue2
+a calendar component for Vue.js
