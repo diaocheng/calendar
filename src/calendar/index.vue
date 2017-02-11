@@ -4,18 +4,18 @@
             <div class="calendar-btn">
                 <div class="calendar-btn-prev">
                     <a href="javascript:void(0)" @click="prevyear">
-                        <span><<</span>
+                        <span>&gt;</span>
                     </a>
                     <a href="javascript:void(0)" @click="prevmonth">
-                        <span><</span>
+                        <span>&gt;</span>
                     </a>
                 </div>
                 <div class="calendar-btn-next">
                     <a href="javascript:void(0)" @click="nextmonth">
-                        <span>></span>
+                        <span>&gt;</span>
                     </a>
                     <a href="javascript:void(0)" @click="nextyear">
-                        <span>>></span>
+                        <span>&gt;&gt;</span>
                     </a>
                 </div>
             </div>
