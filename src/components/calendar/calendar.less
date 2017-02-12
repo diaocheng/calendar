@@ -1,0 +1,84 @@
+@base-bgcolor: #ffffff;
+@base-color: #555555;
+@base-fontsize: 20px;
+@hover-color: #20a0ff;
+@nav-width: 30px;
+@nav-height: 30px;
+.calendar, .calendar * {
+    box-sizing: border-box;
+}
+
+.calendar {
+    background-color: @base-bgcolor;
+    padding: 7px;
+    text-align: center;
+    overflow: auto;
+    .calendar-header {
+        min-width: 100%;
+        padding: 10px;
+        font-size: @base-fontsize;
+        color: @base-color;
+        a {
+            margin: 0;
+            padding: 4px;
+            color: @base-color;
+            text-decoration: none;
+            outline: none;
+            &:hover, &:active {
+                outline: none;
+                text-decoration: none;
+                color: @hover-color;
+            }
+            &:focus {
+                color: @base-color;
+            }
+        }
+        .calendar-nav {
+            .calendar-nav-prev {
+                float: left;
+            }
+            .calendar-nav-next {
+                float: right;
+            }
+            a {
+                display: inline-block;
+                width: @nav-width;
+                height: @nav-height;
+                line-height: normal;
+            }
+        }
+        .calendar-title {
+            margin: 0 2*@nav-width;
+        }
+    }
+    .calendar-body {
+        width: 100%;
+        thead th {
+            padding: 10px;
+            font-weight: 400;
+            font-size: @base-fontsize;
+            color: @base-color;
+        }
+        tbody td {
+            padding: 10px;
+            text-align: center;
+            cursor: pointer;
+            font-size: @base-fontsize;
+            position: relative;
+            &.this-month {
+                color: @base-color;
+                &:hover {
+                    background-color: mix(@base-bgcolor, #0000ff, 90%);
+                    color: @hover-color;
+                }
+                &.today {
+                    background-color: mix(@base-bgcolor, #0000ff, 60%);
+                    color: #fff;
+                }
+            }
+            &.last-month, &.next-month {
+                color: lighten(@base-color, 32%);
+            }
+        }
+    }
+}

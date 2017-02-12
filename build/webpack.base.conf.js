@@ -29,6 +29,7 @@ module.exports = {
       'src': resolve('src'),
       'assets': resolve('src/assets'),
       'js': resolve('src/js'),
+      'font-awesome': resolve('src/font-awesome'),
       'components': resolve('src/components')
     }
   },
