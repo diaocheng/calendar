@@ -45,7 +45,7 @@
     </div>
 </template>
 <script>
-    import Mixins from 'js/mixins';
+    import Mixins from '../js/mixins';
     const WeekDays = {
         base: ['一', '二', '三', '四', '五', '六', '日'],
         fullname: ['星期一', '星期二', '星期三', '星期四', '星期五', '星期六', '星期日'],
