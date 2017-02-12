@@ -68,7 +68,7 @@
             &.this-month {
                 color: @base-color;
                 &:hover {
-                    background-color: mix(@base-bgcolor, #0000ff, 90%);
+                    background-color: mix(@base-bgcolor, #0000ff, 96%);
                     color: @hover-color;
                 }
                 &.today {
@@ -78,6 +78,15 @@
             }
             &.last-month, &.next-month {
                 color: lighten(@base-color, 32%);
+            }
+        }
+        tbody .calendar-years, tbody .calendar-months {
+            td {
+                color: @base-color;
+                &:hover {
+                    background-color: mix(@base-bgcolor, #0000ff, 96%);
+                    color: @hover-color;
+                }
             }
         }
     }

@@ -83,6 +83,7 @@
                 <tr
                     v-show="view===1"
                     v-for="(rows, r) in Months"
+                    class="calendar-months"
                 >
                     <td
                         v-for="(col, c) in rows"
@@ -95,6 +96,7 @@
                 <tr
                     v-show="view===2"
                     v-for="rows in Years"
+                    class="calendar-years"
                 >
                     <td
                         v-for="col in rows"
